@@ -1,0 +1,19 @@
+{% extends "../data/base.html" %}
+
+
+{% block title %}
+	Upload Workflow
+{% endblock %}
+
+
+{% block content %}
+<form id="workflow_form" method="post" action="{% url 'add_workflow' %}" enctype="multipart/form-data">
+	{% csrf_token %}
+	{% for field in form.visible_fields %}
+		{{ field.errors }}
+		{{ field.help_text }}
+		{{ field }}
+	{% endfor %}
+	<input type="submit" name="submit" value="Create Workflow">
+</form>
+{% endblock %}

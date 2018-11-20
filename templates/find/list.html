@@ -1,0 +1,67 @@
+{% extends "../data/base.html" %}
+
+<!-- If we are listing the workflows of a 
+		 given category, the title is the category's name -->
+{% if category %}
+	{% block title %}
+		{{ category.name }}
+	{% endblock %}
+{% endif %}
+
+{% block content %}
+	<!-- Sidebar containing the names of all the categories -->
+	<div id="sidebar">
+		<h2>Categories</h2>
+			<a href="{% url 'workflow_list' %}">All </a><br>
+		{% for cat in categories %}
+				<a href="{% url 'workflow_list_by_category' cat.slug %}">{{ cat.name }}</a><br>
+		{% endfor %}
+		<a href="{% url 'add_workflow' %}">Upload Workflow </a><br>
+	</div>
+
+	<div id="main">
+		<!-- If we are listling the workflows of a category, 
+				 we name that category -->
+		{% if category %}
+			<h1>{{ category.name }}</h1>
+		<!-- If not, we are just listing all the workflows -->
+		{% else %}
+			<h1>Workflows</h1>
+		{% endif %}
+		<!-- If there are workflows, in the category or in the db
+		     we print their name and description -->
+		{% if result %}
+			{% for w in workflows %}
+				<a href="{% url 'workflow_detail' w.id w.slug %}">{{w.name}}</a>:{{w.description | truncatechars:255}}<br>
+			{% endfor %}
+		<!-- If not, an error message is shown -->
+		{% else %}
+			{{error}}
+		{% endif %}
+	</div>
+
+	<!-- For the pagination -->
+	{% if workflows.has_other_pages %}
+  <ul class="pagination" style="float: left;">
+    {% if workflows.has_previous %}
+      <li><a href="?page={{ workflows.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in workflows.paginator.page_range %}
+      {% if workflows.number == i %}
+        <li class="pure-menu-active"><span>{{ i }}</span></li>
+      {% else %}
+        <li class="pure-menu"><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if workflows.has_next %}
+      <li><a href="?page={{ workflows.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+</div>
+{% endif %}
+
+{% endblock %}
