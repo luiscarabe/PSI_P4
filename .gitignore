@@ -1,0 +1,4 @@
+*.pyc
+staticfiles
+uploads
+data/migrations/00*

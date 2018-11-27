@@ -16,7 +16,7 @@
 		{% for cat in categories %}
 				<a href="{% url 'workflow_list_by_category' cat.slug %}">{{ cat.name }}</a><br>
 		{% endfor %}
-		<a href="{% url 'add_workflow' %}">Upload Workflow </a><br>
+		<a href="{% url 'upload:add_workflow' %}">Upload Workflow </a><br>
 	</div>
 
 	<div id="main">

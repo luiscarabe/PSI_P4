@@ -20,6 +20,11 @@
 			{% endfor %}
 			<b>KeyWords:</b>{{workflow.keywords}}<br>
 			<b>Description:</b>{{workflow.description}}
+
+			<form action="{% url 'workflow_download' workflow.id workflow.slug %}" method="post">
+				{% csrf_token %}
+				<input type="submit" name="submit" value="Download">
+			</form>
 		<!-- If not, an error message is shown -->
 		{% else %}
 			<h2> The workflow could not be downloaded.</h2>

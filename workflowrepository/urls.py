@@ -12,7 +12,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^base/', views.base, name='base'),
     url(r'', include('find.urls')), # Include of urls defined in our app find
-    url(r'', include('upload.urls')), # Include of urls defined in our app upload
+    url(r'', include('upload.urls', namespace='upload')), # Include of urls defined in our app upload
 
 ]
 

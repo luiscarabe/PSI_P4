@@ -11,7 +11,11 @@ def add_workflow(request):
 		if form.is_valid():
 			
 			workflowFile = form.cleaned_data['json']
-			file_data = workflowFile.read().decode('utf-8')
+			try:
+				file_data = workflowFile.read().decode('utf-8')
+			except UnicodeDecodeError:
+				return render(request, "upload/upload.html", {'form' : form, 'error' : True })
+			
 			form.instance.json = file_data
 
 			workflow = form.save(commit=True)
@@ -25,4 +29,4 @@ def add_workflow(request):
 			print form.errors
 
 	form = WorkflowForm()
-	return render(request, "upload/upload.html", {'form' : form})
+	return render(request, "upload/upload.html", {'form' : form, 'error' : False })

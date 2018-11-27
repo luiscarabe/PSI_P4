@@ -11,6 +11,7 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.paginator import Paginator
+from django.http import HttpResponse
 
 from data.models import Category, Workflow
 
@@ -123,3 +124,17 @@ def workflow_search(request):
 	_dict['error'] = error
 
 	return render(request, 'find/detail.html', _dict)
+
+
+def workflow_download(request, id, slug, count = True):
+	try:
+
+		workflow = Workflow.objects.get(id = id)
+		workflow.downloads = workflow.downloads + 1
+		response = HttpResponse(workflow.json, content_type = 'application/octet-stream')
+		filename = "outfile.json"
+		response['Content-Disposition'] = 'inline; filename=%s' % filename
+		return response
+
+	except ObjectDoesNotExist:
+		return None
