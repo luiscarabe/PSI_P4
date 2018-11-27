@@ -30,7 +30,7 @@ ID_VERSION = "id_versionInit"
 LABEL_UPLOAD_WORFLOW = "Upload workflow"
 LABEL_SUMIT_WORKFLOW = "submit_workflow"
 
-ASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROMEDRIVER=os.path.join(BASE_DIR, "chromedriver")
 WAITFOR = 01
 BASE_LOCAL_URL = "http://127.0.0.1:8000/"
