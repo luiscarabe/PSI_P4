@@ -27,7 +27,7 @@ ID_DESCRIPTION = "id_description"
 ID_KEYWORDS = "id_keywords"
 ID_NAME = "id_name"
 ID_VERSION = "id_versionInit"
-LABEL_UPLOAD_WORFLOW = "Upload workflow"
+LABEL_UPLOAD_WORFLOW = "Upload Workflow"
 LABEL_SUMIT_WORKFLOW = "submit_workflow"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
