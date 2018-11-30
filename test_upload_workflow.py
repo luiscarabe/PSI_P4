@@ -28,7 +28,7 @@ ID_KEYWORDS = "id_keywords"
 ID_NAME = "id_name"
 ID_VERSION = "id_versionInit"
 LABEL_UPLOAD_WORFLOW = "Upload Workflow"
-LABEL_SUMIT_WORKFLOW = "submit_workflow"
+LABEL_SUMIT_WORKFLOW = "submit"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROMEDRIVER=os.path.join(BASE_DIR, "chromedriver")

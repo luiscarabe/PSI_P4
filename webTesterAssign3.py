@@ -28,13 +28,13 @@ ID_NAME = "id_name"
 ID_VERSION = "id_versionInit"
 SEARCH_TEXTBOX_NAME='key'
 SEARCH_BUTTOM_NAME='byName'
-LABEL_UPLOAD_WORFLOW = "Upload workflow"
+LABEL_UPLOAD_WORFLOW = "Upload Workflow"
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CHROMEDRIVER=os.path.join(BASE_DIR, "chromedriver")
 WAITFOR = 1
 BASE_LOCAL_URL = "http://127.0.0.1:8000/"
-BASE_REMOTE_URL = "https://radiant-reef-12536.herokuapp.com/"
+BASE_REMOTE_URL = "https://obscure-everglades-23712.herokuapp.com/"
 BASE_URL = BASE_REMOTE_URL
 #DO NOT MODIFIED THE CODE BELLOW THIS POINT
 
