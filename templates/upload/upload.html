@@ -7,7 +7,7 @@
 
 
 {% block content %}
-<form id="workflow_form" method="post" action="{% url 'add_workflow' %}" enctype="multipart/form-data">
+<form id="workflow_form" method="post" action="{% url 'upload:add_workflow' %}" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form.visible_fields %}
 		{{ field.errors }}
