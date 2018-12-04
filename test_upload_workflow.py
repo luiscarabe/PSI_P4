@@ -35,7 +35,7 @@ CHROMEDRIVER=os.path.join(BASE_DIR, "chromedriver")
 WAITFOR = 01
 BASE_LOCAL_URL = "http://127.0.0.1:8000/"
 BASE_REMOTE_URL = "https://obscure-everglades-23712.herokuapp.com/"
-BASE_URL = BASE_LOCAL_URL
+BASE_URL = BASE_REMOTE_URL
 
 #DO NOT MODIFIED THE CODE BELOW THIS POINT
 
@@ -47,7 +47,7 @@ class workflowTester(unittest.TestCase):
         print ("Setup")
 #        self.driver = webdriver.Firefox()
         self.driver = webdriver.Chrome(self.chromeDriver)
-        self.base_url = BASE_URL 
+        self.base_url = BASE_URL
 
     def find_element_by_id(self,_id,value,waitFor=WAITFOR):
         self.driver.find_element_by_id(_id).clear()
@@ -80,7 +80,7 @@ class workflowTester(unittest.TestCase):
         populate = Command()
         populate.handle()
         #data = populate.getData()
-        self.CATEGORYNAME = (Category.objects.all()[0]).name 
+        self.CATEGORYNAME = (Category.objects.all()[0]).name
 
     def seeHome(self, waitFor=0):
         """ go to home page"""
