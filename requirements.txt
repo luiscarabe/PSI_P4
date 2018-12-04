@@ -5,3 +5,4 @@ psycopg2==2.7.5
 Pillow==5.1.0
 static3==0.7.0
 gunicorn==19.8.1
+django-recaptcha==1.4.0

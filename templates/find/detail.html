@@ -1,4 +1,18 @@
 {% extends "../data/base.html" %}
+{% load staticfiles %}
+
+
+{% block scripts %}
+	
+	<!-- Load webcomponents support -->
+	<script src="{% static 'js/webcomponents/webcomponents-loader.js' %}">
+	</script>
+	<!-- Load the recaptcha support -->
+	<script src='https://www.google.com/recaptcha/api.js'></script>
+	<!-- link the web component code -->
+	<link rel="import" href="{% static 'scipion-workflow.html' %}">
+
+{% endblock %}
 
 <!-- If there is a result, workflow is not null, 
 		so the title is the workflow's name -->
@@ -8,12 +22,18 @@
 	{% endblock %}
 {% endif %}
 
+<!-- Main body -->
 {% block content %}
 	<div id="main">
+
 		<h2>{{ error }}<h2> <br>
 		<!-- If there is a result, the content is
 		     the workflow information  -->
 		{% if result != False %}
+			<div>
+				<scipion-workflow src="{% url 'workflow_download_json' workflow.id workflow.slug %}" height="400px" width="50%"/>
+			</div>
+
 			<h2>{{workflow.name}}</h2>
 			{% for cat in workflow.category.all %}
 				<a href="{% url 'workflow_list_by_category' cat.slug %}">{{ cat.name }}</a><br>
@@ -23,13 +43,14 @@
 
 			<form action="{% url 'workflow_download' workflow.id workflow.slug %}" method="post">
 				{% csrf_token %}
+				<!-- 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI -->
+		    <div class="g-recaptcha" data-sitekey="6LePzH4UAAAAAGnAjg_kh2F53u8eG0VJdOcPiACZ"></div>
 				<input type="submit" name="submit" value="Download">
 			</form>
+
 		<!-- If not, an error message is shown -->
 		{% else %}
 			<h2> The workflow could not be downloaded.</h2>
-			Error: {{ error}}
 	</div>
-
 	{% endif %}
 {% endblock %}

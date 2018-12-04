@@ -5,6 +5,8 @@ from __future__ import unicode_literals
 
 import json
 import django, os
+import urllib
+import urllib2
 
 from django.shortcuts import render
 from django.core.management.base import BaseCommand
@@ -127,6 +129,28 @@ def workflow_search(request):
 
 
 def workflow_download(request, id, slug, count = True):
+
+	# 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
+	
+	# Begin reCAPTCHA validation 
+	recaptcha_response = request.POST.get('g-recaptcha-response')
+	url = 'https://www.google.com/recaptcha/api/siteverify'
+	values = {
+			'secret': '6LePzH4UAAAAAIgd7Ym6XCRojaJflWWRKEjyfMZV',
+			'response': recaptcha_response
+	}
+	data = urllib.urlencode(values)
+	req = urllib2.Request(url, data)
+	response = urllib2.urlopen(req)
+	result = json.load(response)
+	# End reCAPTCHA validation 
+
+	content = {}
+	if not result['success']:
+		content['result'] = False
+		content['error'] = 'Invalid reCAPTCHA. Please try again.'
+		return render(request, 'find/detail.html', content)
+
 	try:
 
 		workflow = Workflow.objects.get(id = id)
@@ -136,5 +160,13 @@ def workflow_download(request, id, slug, count = True):
 		response['Content-Disposition'] = 'inline; filename=%s' % filename
 		return response
 
+	except ObjectDoesNotExist:
+		return None
+
+def workflow_download_json(request, id, slug):
+	# Search for the workflow with id = 'id'
+	try:
+		workflow = Workflow.objects.get(id = id)
+		return HttpResponse(workflow.json, content_type = 'application/octet-stream')
 	except ObjectDoesNotExist:
 		return None
