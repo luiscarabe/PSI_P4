@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = [u'obscure-everglades-23712.herokuapp.com', u'127.0.0.1']
 
+# Keys
+SITE_KEY = "6LePzH4UAAAAAGnAjg_kh2F53u8eG0VJdOcPiACZ"
+SECRET_KEY = "6LePzH4UAAAAAIgd7Ym6XCRojaJflWWRKEjyfMZV"
 
 # Application definition
 

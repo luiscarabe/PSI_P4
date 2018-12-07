@@ -13,12 +13,12 @@ from random import randint
 django.setup()
 
 from data.models import Category, Workflow
+
 #models
 CATEGORY = 'category'
 USER = 'user'
 WORKFLOW = 'workflow'
-# The name of this class is not optional must  be Command
-# otherwise manage.py will not process it properly
+
 class Command(BaseCommand):
 	#  args = '<-no arguments>'
 	# helps and arguments shown when command python manage.py help populate
@@ -40,8 +40,6 @@ reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
 deserunt mollit anim id est laborum."""[init:end]
 
-	# handle is another compulsory name, This function will be
-	# executed by default
 	def handle(self, *args, **options):
 		self.cleanDatabase()
 		self.addCategory(5) # add 5 categories
@@ -222,7 +220,6 @@ deserunt mollit anim id est laborum."""[init:end]
 			"numberOfThreads": 1,
 			"numberOfMpi": 1,
 			"ctfRelations": "82.__attribute__outputCTF",
-			"inputCoordinates": "123.__attribute__outputCoordinates",
 			"inputMicrographs": "369.outputMicrographs"
 	},
 	{

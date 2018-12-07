@@ -1,6 +1,9 @@
+# Blanca Martin and Luis Carabe pair number 10
+
 from django import forms
 from data.models import Workflow, Category
 
+# Class for the form for the creation of a workflow
 class WorkflowForm (forms.ModelForm):
 	name = forms.CharField(max_length=128, help_text="Please enter the name of the workflow.")
 	category = forms.ModelMultipleChoiceField(Category.objects.all().order_by('name'), help_text="Please select at least one category.")

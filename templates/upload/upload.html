@@ -1,12 +1,13 @@
 {% extends "../data/base.html" %}
 
-
+<!-- Title -->
 {% block title %}
 	Upload Workflow
 {% endblock %}
 
-
+<!-- Main -->
 {% block content %}
+<!-- Form including the information required to create a workflow -->
 <form id="workflow_form" method="post" action="{% url 'upload:add_workflow' %}" enctype="multipart/form-data">
 	{% csrf_token %}
 	{% for field in form.visible_fields %}
@@ -14,8 +15,9 @@
 		{{ field.help_text }}
 		{{ field }} <br><br>
 	{% endfor %}
+	<!-- If there was an error, we show a message -->
 	{% if error %}
-		<h3>El fichero debe ser un .json</h3>
+		<h3>The file could not be decoded. Must be a .json file.</h3>
 	{% endif %}
 	<input type="submit" name="submit" value="Create Workflow">
 </form>

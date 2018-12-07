@@ -25,32 +25,41 @@
 <!-- Main body -->
 {% block content %}
 	<div id="main">
+		<h2>{{ error }}</h2> <br>
+		<span class="row">
+			<!-- If there is a result, the content is
+			     the workflow information  -->
+			{% if result != False %}
 
-		<h2>{{ error }}<h2> <br>
-		<!-- If there is a result, the content is
-		     the workflow information  -->
-		{% if result != False %}
-			<div>
-				<scipion-workflow src="{% url 'workflow_download_json' workflow.id workflow.slug %}" height="400px" width="50%"/>
-			</div>
+				<div id="info">
+					<!-- Workflow name -->
+					<h2>{{workflow.name}}</h2>
+					<!-- Workflow categories -->
+					{% for cat in workflow.category.all %}
+						<a href="{% url 'workflow_list_by_category' cat.slug %}">{{ cat.name }}</a><br>
+					{% endfor %}
+					<!-- Workflow keywords -->
+					<b>KeyWords:</b>{{workflow.keywords}}<br>
+					<!-- Workflow description -->
+					<b>Description:</b>{{workflow.description}}
 
-			<h2>{{workflow.name}}</h2>
-			{% for cat in workflow.category.all %}
-				<a href="{% url 'workflow_list_by_category' cat.slug %}">{{ cat.name }}</a><br>
-			{% endfor %}
-			<b>KeyWords:</b>{{workflow.keywords}}<br>
-			<b>Description:</b>{{workflow.description}}
-
-			<form action="{% url 'workflow_download' workflow.id workflow.slug %}" method="post">
-				{% csrf_token %}
-				<!-- 6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI -->
-		    <div class="g-recaptcha" data-sitekey="6LePzH4UAAAAAGnAjg_kh2F53u8eG0VJdOcPiACZ"></div>
-				<input type="submit" name="submit" value="Download">
-			</form>
-
-		<!-- If not, an error message is shown -->
-		{% else %}
-			<h2> The workflow could not be downloaded.</h2>
+					<!-- Form for the download of the workflow -->
+					<form action="{% url 'workflow_download' workflow.id workflow.slug %}" method="post">
+						{% csrf_token %}
+						<!-- recaptcha -->
+				    <div class="g-recaptcha" data-sitekey="{{key}}"></div>
+				    <!-- button -->
+						<input type="submit" name="submit" value="Download">
+					</form>
+				</div>
+				<!-- Division with the workflow's json -->
+				<div id="scipion">
+					<scipion-workflow src="{% url 'workflow_download_json' workflow.id workflow.slug %}" height="400px" width="400px"/>
+				</div>
+			<!-- If there was no result, an error message is shown -->
+			{% else %}
+				<h2>The workflow could not be found.</h2>
+		</span>
 	</div>
 	{% endif %}
 {% endblock %}

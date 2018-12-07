@@ -16,6 +16,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 
 from data.models import Category, Workflow
+from workflowrepository import settings
 
 
 def workflow_list(request, category_slug = None):
@@ -36,6 +37,7 @@ def workflow_list(request, category_slug = None):
 			found = False
 			error = "No Workflows found!"
 		else:
+			# We paginate the workflow list making pages of 10 workflows
 			paginator = Paginator(workflow_list, 10)
 			error = ""
 			try:
@@ -64,6 +66,7 @@ def workflow_list(request, category_slug = None):
 		else:
 			found = True
 			error = ""
+			# We paginate the workflow list making pages of 10 workflows
 			paginator = Paginator(workflow_list, 10)
 			error = ""
 			try:
@@ -101,6 +104,7 @@ def workflow_detail(request, id, slug):
 	_dict['result'] = found
 	_dict['workflow'] = workflow
 	_dict['error'] = error
+	_dict['key'] = settings.SITE_KEY
 
 	return render(request, 'find/detail.html', _dict)
 
@@ -124,19 +128,18 @@ def workflow_search(request):
 	_dict['result'] = found
 	_dict['workflow'] = workflow
 	_dict['error'] = error
+	_dict['key'] = settings.SITE_KEY
 
 	return render(request, 'find/detail.html', _dict)
 
 
 def workflow_download(request, id, slug, count = True):
 
-	# 6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe
-	
 	# Begin reCAPTCHA validation 
 	recaptcha_response = request.POST.get('g-recaptcha-response')
 	url = 'https://www.google.com/recaptcha/api/siteverify'
 	values = {
-			'secret': '6LePzH4UAAAAAIgd7Ym6XCRojaJflWWRKEjyfMZV',
+			'secret': settings.SECRET_KEY,
 			'response': recaptcha_response
 	}
 	data = urllib.urlencode(values)
@@ -146,27 +149,37 @@ def workflow_download(request, id, slug, count = True):
 	# End reCAPTCHA validation 
 
 	content = {}
+	# If the reCAPTCHA validation gave an error,
+	# an error message is shown informing of that.
 	if not result['success']:
 		content['result'] = False
 		content['error'] = 'Invalid reCAPTCHA. Please try again.'
+		content['key'] = settings.SITE_KEY
 		return render(request, 'find/detail.html', content)
 
+	# If the reCAPTCHA validation was successfull
 	try:
-
+		# The workflow with id = 'id' is search in the database
 		workflow = Workflow.objects.get(id = id)
+		# We add 1 to the downloads of that workflow
 		workflow.downloads = workflow.downloads + 1
+
+		# The content of the json is sent back to the user
 		response = HttpResponse(workflow.json, content_type = 'application/octet-stream')
 		filename = "outfile.json"
 		response['Content-Disposition'] = 'inline; filename=%s' % filename
 		return response
 
 	except ObjectDoesNotExist:
+		# If the workflow could not be found, nothing is done
 		return None
 
 def workflow_download_json(request, id, slug):
-	# Search for the workflow with id = 'id'
 	try:
+		# Search for the workflow with id = 'id'
 		workflow = Workflow.objects.get(id = id)
+		# The conetnt of the json is sent
 		return HttpResponse(workflow.json, content_type = 'application/octet-stream')
 	except ObjectDoesNotExist:
+		# If the workflow could not be found, nothing is done
 		return None
