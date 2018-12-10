@@ -35,7 +35,7 @@ CHROMEDRIVER=os.path.join(BASE_DIR, "chromedriver")
 WAITFOR = 01
 BASE_LOCAL_URL = "http://127.0.0.1:8000/"
 BASE_REMOTE_URL = "https://obscure-everglades-23712.herokuapp.com/"
-BASE_URL = BASE_REMOTE_URL
+BASE_URL = BASE_LOCAL_URL
 
 #DO NOT MODIFIED THE CODE BELOW THIS POINT
 
